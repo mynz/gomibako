@@ -17,22 +17,22 @@ __FBSDID("$FreeBSD: release/9.1.0/sys/dev/null/null.c 230320 2012-01-18 21:54:34
 #include <machine/vmparam.h>
 
 /* For use with destroy_dev(9). */
-static struct cdev *null_dev;
+static struct cdev *gomibako_dev;
 
-static d_write_t null_write;
-static d_ioctl_t null_ioctl;
+static d_write_t gomibako_write;
+static d_ioctl_t gomibako_ioctl;
 
-static struct cdevsw null_cdevsw = {
+static struct cdevsw gomibako_cdevsw = {
 	.d_version =	D_VERSION,
-	.d_read =	(d_read_t *)nullop,
-	.d_write =	null_write,
-	.d_ioctl =	null_ioctl,
-	.d_name =	"null",
+	.d_read =	(d_read_t *)gomibakoop,
+	.d_write =	gomibako_write,
+	.d_ioctl =	gomibako_ioctl,
+	.d_name =	"gomibako",
 };
 
 /* ARGSUSED */
 static int
-null_write(struct cdev *dev __unused, struct uio *uio, int flags __unused)
+gomibako_write(struct cdev *dev __unused, struct uio *uio, int flags __unused)
 {
 	uio->uio_resid = 0;
 
@@ -41,7 +41,7 @@ null_write(struct cdev *dev __unused, struct uio *uio, int flags __unused)
 
 /* ARGSUSED */
 static int
-null_ioctl(struct cdev *dev __unused, u_long cmd, caddr_t data __unused,
+gomibako_ioctl(struct cdev *dev __unused, u_long cmd, caddr_t data __unused,
     int flags __unused, struct thread *td)
 {
 	int error;
@@ -67,18 +67,18 @@ null_ioctl(struct cdev *dev __unused, u_long cmd, caddr_t data __unused,
 
 /* ARGSUSED */
 static int
-null_modevent(module_t mod __unused, int type, void *data __unused)
+gomibako_modevent(module_t mod __unused, int type, void *data __unused)
 {
 	switch(type) {
 	case MOD_LOAD:
 		if (bootverbose)
-			printf("null: <null device, zero device>\n");
-		null_dev = make_dev_credf(MAKEDEV_ETERNAL_KLD, &null_cdevsw, 0,
-		    NULL, UID_ROOT, GID_WHEEL, 0666, "null");
+			printf("gomibako: <gomibako device, zero device>\n");
+		gomibako_dev = make_dev_credf(MAKEDEV_ETERNAL_KLD, &gomibako_cdevsw, 0,
+		    NULL, UID_ROOT, GID_WHEEL, 0666, "gomibako");
 		break;
 
 	case MOD_UNLOAD:
-		destroy_dev(null_dev);
+		destroy_dev(gomibako_dev);
 		break;
 
 	case MOD_SHUTDOWN:
@@ -91,5 +91,5 @@ null_modevent(module_t mod __unused, int type, void *data __unused)
 	return (0);
 }
 
-DEV_MODULE(null, null_modevent, NULL);
-MODULE_VERSION(null, 1);
+DEV_MODULE(gomibako, gomibako_modevent, NULL);
+MODULE_VERSION(gomibako, 1);
