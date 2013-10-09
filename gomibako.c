@@ -24,7 +24,7 @@ static d_ioctl_t gomibako_ioctl;
 
 static struct cdevsw gomibako_cdevsw = {
 	.d_version =	D_VERSION,
-	.d_read =	(d_read_t *)gomibakoop,
+	.d_read =       (d_read_t *)nullop,
 	.d_write =	gomibako_write,
 	.d_ioctl =	gomibako_ioctl,
 	.d_name =	"gomibako",
