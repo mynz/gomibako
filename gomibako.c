@@ -1,3 +1,7 @@
+/**
+ * @file gomibako.c
+ */
+
 #include <sys/cdefs.h>
 __FBSDID("$FreeBSD: release/9.1.0/sys/dev/null/null.c 230320 2012-01-18 21:54:34Z gnn $");
 
